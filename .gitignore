@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+.claude/
+.env
+.env.*
+.streamlit/secrets.toml
+ui-review/
+node_modules/
+pages-test-results/
