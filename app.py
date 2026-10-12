@@ -26,7 +26,6 @@ def init_state():
     ss.setdefault("cart", {})        # key -> {id, name, opt, unit, qty}
     ss.setdefault("orders", [])      # 주문 내역
     ss.setdefault("calls", [])
-    ss.setdefault("dlg_n", 0)        # 메뉴 다이얼로그 위젯 키 갱신용
     ss.setdefault("table", 12)
     ss.setdefault("roulette", None)  # {"idx", "angle", "animate"} - 세션당 1회
     ss.setdefault("roulette_percent", 0)  # 다음 주문에 적용할 룰렛 할인율
@@ -109,33 +108,6 @@ def thumb_html(item, qty_in_cart=0, big=False):
     sold = '<div class="soldout">품절</div>' if item["soldout"] else ""
     return (f'<div class="thumb{size}" style="background:linear-gradient(135deg,{c1},{c2})">'
             f'{item["emoji"]}<div class="badges">{badges}</div>{extra}{sold}</div>')
-
-
-@st.dialog("메뉴 선택", width="large")
-def item_dialog(item_id, n):
-    item = MENU_BY_ID[item_id]
-    with st.container(key="item_details"):
-        left, right = st.columns([1, 1.4])
-    with left:
-        st.html(thumb_html(item, big=True))
-    with right:
-        st.html(f'<div class="mname" style="font-size:24px">{item["name"]}</div>'
-                    f'<div class="mdesc" style="font-size:14px">{item["desc"]}</div>')
-        extra, labels = 0, []
-        for gi, g in enumerate(item["options"]):
-            prices = dict(g["choices"])
-            pick = st.radio(g["title"], list(prices), horizontal=True, key=f"opt_{n}_{gi}",
-                            format_func=lambda nm, p=prices: f"{nm} (+{p[nm]:,}원)" if p[nm] > 0
-                            else (f"{nm} ({p[nm]:,}원)" if p[nm] < 0 else nm))
-            extra += prices[pick]
-            labels.append(pick)
-        qty = st.number_input("수량", min_value=1, max_value=20, value=1, step=1, key=f"qty_{n}")
-        unit = item["price"] + extra
-        st.html(f'<div class="total-row"><span>합계</span><b>{won(unit * qty)}</b></div>')
-        if st.button("장바구니 담기", type="primary", width="stretch", key=f"confirm_{n}"):
-            cart_add(item, " / ".join(labels), unit, qty)
-            st.toast(f"{item['name']} {qty}개를 담았어요", icon="🛒")
-            st.rerun()
 
 
 @st.dialog("주문 확인", width="medium")
@@ -331,8 +303,8 @@ def render_menu():
                         f'<div class="mprice">{won(item["price"])}</div>')
                 if st.button("품절" if item["soldout"] else "담기", key=f"add_{item['id']}", width="stretch",
                              disabled=item["soldout"]):
-                    st.session_state.dlg_n += 1
-                    item_dialog(item["id"], st.session_state.dlg_n)
+                    cart_add(item, "", item["price"], 1)
+                    st.rerun()
 
 
 def render_recommendations():

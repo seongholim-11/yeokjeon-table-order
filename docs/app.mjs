@@ -48,15 +48,6 @@ function cartHTML() {
   const totals = cartTotals(state.cart,state.roulettePercent), lines = Object.entries(state.cart);
   return `<div class="cart-panel"><div class="cart-title">🛒 장바구니 <span>${totals.count}</span></div><div class="cart-items">${lines.length ? lines.map(([key,l]) => `<div class="cart-row"><div class="cart-line"><div><div class="n">${esc(l.name)}</div><div class="o">${esc(l.opt)}</div></div><div class="p">${won(l.unit*l.qty)}</div></div><div class="stepper">${button('−','decrement',key)}<span aria-label="수량">${l.qty}</span>${button('+','increment',key)}${button('🗑','remove',key)}</div></div>`).join('') : '<div class="cart-empty"><span class="emoji">🍻</span>메뉴를 담아주세요</div>'}</div>${totals.savings ? `<div class="cart-savings">✨ AI 조합으로 ${won(totals.savings)} 할인받았어요</div>` : ''}${totals.roulette ? `<div class="cart-savings">🎟️ 룰렛 ${state.roulettePercent}% 할인 −${won(totals.roulette)}</div>` : ''}<div class="total-row"><span>총 주문금액</span><b>${won(totals.total)}</b></div>${button('주문 확인하기','confirm','','wide primary',!lines.length)}</div>`;
 }
-function showItem(id) {
-  const item = menuById[id]; if (!item || item.soldout) return;
-  openModal('메뉴 선택', `<form id="item-form" data-item="${id}"><div class="item-details">${thumb(item,true)}<div><div class="mname">${item.name}</div><div class="mdesc">${item.desc}</div>${item.options.map((group,i) => `<fieldset class="option-group"><legend>${group.title}</legend>${group.choices.map(([name,extra],j) => `<label><input type="radio" name="option-${i}" value="${j}" ${j === 0 ? 'checked' : ''}>${name}${extra ? ` (${extra > 0 ? '+' : ''}${won(extra)})` : ''}</label>`).join('')}</fieldset>`).join('')}<label>수량<input name="qty" type="number" min="1" max="20" value="1" required></label><div class="total-row"><span>합계</span><b id="item-total">${won(item.price)}</b></div><button class="primary wide" type="submit">장바구니 담기</button></div></div></form>`);
-}
-function itemSelection(form) {
-  const item = menuById[form.dataset.item], values = new FormData(form);
-  const choices = item.options.map((g,i) => g.choices[Number(values.get(`option-${i}`))]);
-  return {item, opt:choices.map(c => c[0]).join(' / '), unit:item.price+choices.reduce((sum,c) => sum+c[1],0), qty:Number(values.get('qty'))};
-}
 function addItem(item,opt,unit,qty) { const key = `${item.id}|${opt}`; if (state.cart[key]) state.cart[key].qty += qty; else state.cart[key] = {id:item.id,name:item.name,opt,unit,qty}; }
 function showConfirm() {
   const lines = Object.values(state.cart); if (!lines.length) return;
@@ -84,7 +75,10 @@ document.addEventListener('click', event => {
     case 'start': state.page = 'menu'; render(); break;
     case 'home': state.page = 'splash'; render(); break;
     case 'category': state.cat = value; render(); break;
-    case 'item': showItem(value); break;
+    case 'item': {
+      const item = menuById[value]; if (!item || item.soldout) break;
+      addItem(item,'',item.price,1); render(); break;
+    }
     case 'cart': openModal('장바구니',cartHTML()); break;
     case 'confirm': showConfirm(); break;
     case 'orders': showOrders(); break;
@@ -118,16 +112,7 @@ document.addEventListener('change', event => {
   }
   if (event.target.closest('#staff-form')) $('#staff-submit').disabled = !$('#staff-form input:checked');
 });
-document.addEventListener('input', event => {
-  const form = event.target.closest('#item-form'); if (!form) return;
-  const {unit,qty} = itemSelection(form); $('#item-total').textContent = won(unit * (Number.isFinite(qty) ? qty : 0));
-});
 document.addEventListener('submit', event => {
-  if (event.target.id === 'item-form') {
-    event.preventDefault(); const {item,opt,unit,qty} = itemSelection(event.target);
-    if (!Number.isInteger(qty) || qty < 1 || qty > 20 || item.soldout) return;
-    addItem(item,opt,unit,qty); closeModal(); render(); toast(`${item.name} ${qty}개를 담았어요`);
-  }
   if (event.target.id === 'staff-form') {
     event.preventDefault(); const picks = new FormData(event.target).getAll('request').map(i => data.staffCalls[Number(i)]); if (!picks.length) return;
     state.calls.push({ts:Date.now(),picks}); save(); closeModal(); toast('직원 호출 데모가 접수되었습니다 🙋');

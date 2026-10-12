@@ -26,11 +26,16 @@ class RecommendationTests(unittest.TestCase):
                             if drink in ("음료", "없이"):
                                 self.assertTrue(all(MENU_BY_ID[c["id"]]["cat"] not in ("beer", "soju") for c in combo["components"]))
 
-    def test_spicy_preference_changes_ranking(self):
+    def test_spicy_preference_changes_menu_selection(self):
         mild = recommend_combos(spicy="맵지 않게")
         spicy = recommend_combos(spicy="매콤하게")
-        self.assertNotEqual(mild[0]["id"], spicy[0]["id"])
+        self.assertNotEqual(mild[0]["components"], spicy[0]["components"])
         self.assertTrue(any("매운맛" in MENU_BY_ID[c["id"]]["tags"] for c in spicy[0]["components"]))
+        for combo in spicy:
+            for component in combo["components"]:
+                self.assertEqual(component["name"], MENU_BY_ID[component["id"]]["name"])
+                self.assertEqual(component["unit"], MENU_BY_ID[component["id"]]["price"])
+                self.assertEqual(component["opt"], "")
 
     def test_soldout_excludes_entire_bundle(self):
         with patch.dict(MENU_BY_ID["b1"], soldout=True):

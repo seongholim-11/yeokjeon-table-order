@@ -41,6 +41,8 @@ def recommend_combos(people=2, budget=40000, spicy="상관없어요", drink="맥
     portions = 2 if people >= 4 else 1
     recommendations = []
     for combo_id, title, ids, pairing_reason in PAIRINGS:
+        if spicy == "매콤하게":
+            ids = tuple(f"{item_id}-hot" if item_id in ("a2", "a3") else item_id for item_id in ids)
         selected_ids = list(ids)
         if DRINKS[drink]:
             selected_ids.append(DRINKS[drink])
@@ -54,12 +56,8 @@ def recommend_combos(people=2, budget=40000, spicy="상관없어요", drink="맥
         for item_id in selected_ids:
             item = MENU_BY_ID[item_id]
             qty = people if item_id == DRINKS[drink] else portions
-            options = []
-            for group in item["options"]:
-                choice = "아주 매운맛" if group["title"] == "맵기 선택" and spicy == "매콤하게" else group["choices"][0][0]
-                options.append(choice)
             components.append({"id": item_id, "name": item["name"], "emoji": item["emoji"],
-                               "qty": qty, "opt": " / ".join(options), "unit": item["price"]})
+                               "qty": qty, "opt": "", "unit": item["price"]})
         original = sum(c["unit"] * c["qty"] for c in components)
         discount = original * DISCOUNT_PERCENT // 100
         price = original - discount

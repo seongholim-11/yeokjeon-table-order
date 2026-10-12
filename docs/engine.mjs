@@ -12,7 +12,8 @@ export function recommendCombos(people = 2, budget = 40000, spicy = '상관없�
     if (menuById[id]) affinity[menuById[id].cat] = (affinity[menuById[id].cat] || 0) + count;
   }
   const recommendations = [];
-  for (const [id, name, ids, pairingReason] of data.pairings) {
+  for (const [id, name, baseIds, pairingReason] of data.pairings) {
+    const ids = baseIds.map(id => spicy === '매콤하게' && ['a2','a3'].includes(id) ? `${id}-hot` : id);
     const drinkId = data.drinks[drink];
     const selected = drinkId ? [...ids, drinkId] : [...ids];
     if (selected.some(id => menuById[id].soldout)) continue;
@@ -20,8 +21,7 @@ export function recommendCombos(people = 2, budget = 40000, spicy = '상관없�
     if (spicy === '맵지 않게' && spicyItems.length) continue;
     const components = selected.map(id => {
       const item = menuById[id];
-      const opt = item.options.map(group => group.title === '맵기 선택' && spicy === '매콤하게' ? '아주 매운맛' : group.choices[0][0]).join(' / ');
-      return {id, name: item.name, emoji: item.emoji, qty: id === drinkId ? people : people >= 4 ? 2 : 1, opt, unit: item.price};
+      return {id, name: item.name, emoji: item.emoji, qty: id === drinkId ? people : people >= 4 ? 2 : 1, opt:'', unit: item.price};
     });
     const original = components.reduce((sum, c) => sum + c.unit * c.qty, 0);
     const discount = Math.floor(original * data.discountPercent / 100);

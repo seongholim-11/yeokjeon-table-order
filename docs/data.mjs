@@ -83,45 +83,79 @@ export default {
     {
       "id": "c1",
       "cat": "chicken",
-      "name": "역전 옛날통닭",
+      "name": "역전 옛날통닭 (한 마리·후라이드)",
       "desc": "겉은 바삭, 속은 촉촉한 가마솥 통닭",
       "price": 18000,
       "emoji": "🍗",
       "tags": [
         "BEST"
       ],
-      "options": [
-        {
-          "title": "구성 선택",
-          "choices": [
-            [
-              "한 마리",
-              0
-            ],
-            [
-              "반 마리",
-              -8000
-            ]
-          ]
-        },
-        {
-          "title": "맛 선택",
-          "choices": [
-            [
-              "후라이드",
-              0
-            ],
-            [
-              "양념",
-              1000
-            ],
-            [
-              "반반",
-              1000
-            ]
-          ]
-        }
+      "options": [],
+      "soldout": false
+    },
+    {
+      "id": "c1-whole-seasoned",
+      "cat": "chicken",
+      "name": "역전 옛날통닭 (한 마리·양념)",
+      "desc": "달콤매콤 양념을 입힌 가마솥 통닭",
+      "price": 19000,
+      "emoji": "🍗",
+      "tags": [
+        "BEST"
       ],
+      "options": [],
+      "soldout": false
+    },
+    {
+      "id": "c1-whole-halfhalf",
+      "cat": "chicken",
+      "name": "역전 옛날통닭 (한 마리·반반)",
+      "desc": "후라이드와 양념을 반반씩",
+      "price": 19000,
+      "emoji": "🍗",
+      "tags": [
+        "BEST"
+      ],
+      "options": [],
+      "soldout": false
+    },
+    {
+      "id": "c1-half-fried",
+      "cat": "chicken",
+      "name": "역전 옛날통닭 (반 마리·후라이드)",
+      "desc": "바삭한 가마솥 통닭 반 마리",
+      "price": 10000,
+      "emoji": "🍗",
+      "tags": [
+        "BEST"
+      ],
+      "options": [],
+      "soldout": false
+    },
+    {
+      "id": "c1-half-seasoned",
+      "cat": "chicken",
+      "name": "역전 옛날통닭 (반 마리·양념)",
+      "desc": "달콤매콤 양념 통닭 반 마리",
+      "price": 11000,
+      "emoji": "🍗",
+      "tags": [
+        "BEST"
+      ],
+      "options": [],
+      "soldout": false
+    },
+    {
+      "id": "c1-half-halfhalf",
+      "cat": "chicken",
+      "name": "역전 옛날통닭 (반 마리·반반)",
+      "desc": "반 마리로 즐기는 후라이드와 양념",
+      "price": 11000,
+      "emoji": "🍗",
+      "tags": [
+        "BEST"
+      ],
+      "options": [],
       "soldout": false
     },
     {
@@ -210,7 +244,20 @@ export default {
     {
       "id": "a2",
       "cat": "anju",
-      "name": "골뱅이 소면 무침",
+      "name": "골뱅이 소면 무침 (순한맛)",
+      "desc": "순하게 즐기는 새콤달콤 골뱅이 소면",
+      "price": 17000,
+      "emoji": "🐚",
+      "tags": [
+        "BEST"
+      ],
+      "options": [],
+      "soldout": false
+    },
+    {
+      "id": "a2-medium",
+      "cat": "anju",
+      "name": "골뱅이 소면 무침 (보통맛)",
       "desc": "새콤달콤 매콤한 대표 안주",
       "price": 17000,
       "emoji": "🐚",
@@ -218,56 +265,58 @@ export default {
         "BEST",
         "매운맛"
       ],
-      "options": [
-        {
-          "title": "맵기 선택",
-          "choices": [
-            [
-              "순한맛",
-              0
-            ],
-            [
-              "보통맛",
-              0
-            ],
-            [
-              "아주 매운맛",
-              0
-            ]
-          ]
-        }
+      "options": [],
+      "soldout": false
+    },
+    {
+      "id": "a2-hot",
+      "cat": "anju",
+      "name": "골뱅이 소면 무침 (아주 매운맛)",
+      "desc": "화끈하게 매운 골뱅이 소면",
+      "price": 17000,
+      "emoji": "🐚",
+      "tags": [
+        "BEST",
+        "매운맛"
       ],
+      "options": [],
       "soldout": false
     },
     {
       "id": "a3",
       "cat": "anju",
-      "name": "직화 무뼈닭발",
-      "desc": "불향 가득 직화로 구운 닭발",
+      "name": "직화 무뼈닭발 (순한맛)",
+      "desc": "순하게 즐기는 불향 가득 직화 닭발",
+      "price": 18000,
+      "emoji": "🔥",
+      "tags": [],
+      "options": [],
+      "soldout": false
+    },
+    {
+      "id": "a3-medium",
+      "cat": "anju",
+      "name": "직화 무뼈닭발 (보통맛)",
+      "desc": "불향 가득 매콤한 직화 닭발",
       "price": 18000,
       "emoji": "🔥",
       "tags": [
         "매운맛"
       ],
-      "options": [
-        {
-          "title": "맵기 선택",
-          "choices": [
-            [
-              "순한맛",
-              0
-            ],
-            [
-              "보통맛",
-              0
-            ],
-            [
-              "아주 매운맛",
-              0
-            ]
-          ]
-        }
+      "options": [],
+      "soldout": false
+    },
+    {
+      "id": "a3-hot",
+      "cat": "anju",
+      "name": "직화 무뼈닭발 (아주 매운맛)",
+      "desc": "불향 가득 화끈하게 매운 직화 닭발",
+      "price": 18000,
+      "emoji": "🔥",
+      "tags": [
+        "매운맛"
       ],
+      "options": [],
       "soldout": false
     },
     {
@@ -578,61 +627,73 @@ export default {
     {
       "id": "j5",
       "cat": "soju",
-      "name": "하이볼",
-      "desc": "위스키 베이스 청량 하이볼",
+      "name": "레몬 하이볼",
+      "desc": "상큼한 레몬 향의 위스키 하이볼",
       "price": 7000,
       "emoji": "🥃",
       "tags": [
         "NEW"
       ],
-      "options": [
-        {
-          "title": "베이스",
-          "choices": [
-            [
-              "레몬",
-              0
-            ],
-            [
-              "자몽",
-              500
-            ],
-            [
-              "진저",
-              500
-            ]
-          ]
-        }
+      "options": [],
+      "soldout": false
+    },
+    {
+      "id": "j5-grapefruit",
+      "cat": "soju",
+      "name": "자몽 하이볼",
+      "desc": "쌉싸름하고 청량한 자몽 하이볼",
+      "price": 7500,
+      "emoji": "🥃",
+      "tags": [
+        "NEW"
       ],
+      "options": [],
+      "soldout": false
+    },
+    {
+      "id": "j5-ginger",
+      "cat": "soju",
+      "name": "진저 하이볼",
+      "desc": "알싸한 진저 향의 위스키 하이볼",
+      "price": 7500,
+      "emoji": "🥃",
+      "tags": [
+        "NEW"
+      ],
+      "options": [],
       "soldout": false
     },
     {
       "id": "j6",
       "cat": "soju",
-      "name": "과일소주",
-      "desc": "달콤한 과일 향 소주",
+      "name": "자몽 과일소주",
+      "desc": "달콤쌉싸름한 자몽 향 소주",
       "price": 6000,
       "emoji": "🍑",
       "tags": [],
-      "options": [
-        {
-          "title": "맛 선택",
-          "choices": [
-            [
-              "자몽",
-              0
-            ],
-            [
-              "청포도",
-              0
-            ],
-            [
-              "복숭아",
-              0
-            ]
-          ]
-        }
-      ],
+      "options": [],
+      "soldout": false
+    },
+    {
+      "id": "j6-grape",
+      "cat": "soju",
+      "name": "청포도 과일소주",
+      "desc": "상큼하고 달콤한 청포도 향 소주",
+      "price": 6000,
+      "emoji": "🍇",
+      "tags": [],
+      "options": [],
+      "soldout": false
+    },
+    {
+      "id": "j6-peach",
+      "cat": "soju",
+      "name": "복숭아 과일소주",
+      "desc": "달콤한 복숭아 향 소주",
+      "price": 6000,
+      "emoji": "🍑",
+      "tags": [],
+      "options": [],
       "soldout": false
     },
     {
